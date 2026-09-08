@@ -5,7 +5,12 @@
 import os
 from functools import lru_cache
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+# 禁止用于生产环境的弱 JWT 密钥
+_WEAK_SECRETS = {"", "change-me-to-a-random-secret", "secret", "123456", "password"}
 
 
 class Settings(BaseSettings):
@@ -83,6 +88,19 @@ class Settings(BaseSettings):
         （OS 环境变量优先）；再兼容回退 OpenAI 标准变量名 OPENAI_API_KEY。
         """
         return (self.OPENAL_APLKEY or "").strip() or os.getenv("OPENAI_API_KEY") or ""
+
+    @model_validator(mode="after")
+    def _check_jwt_secret(self) -> "Settings":
+        """校验 JWT_SECRET：生产环境（非 DEBUG）拒绝弱默认值，开发环境仅告警。"""
+        if self.JWT_SECRET.strip() in _WEAK_SECRETS:
+            if not self.DEBUG:
+                raise ValueError("JWT_SECRET 使用了弱默认值，生产环境必须配置随机密钥")
+            import logging
+
+            logging.getLogger("app.core.config").warning(
+                "JWT_SECRET 为弱默认值，生产环境务必更换为随机长字符串"
+            )
+        return self
 
 
 @lru_cache

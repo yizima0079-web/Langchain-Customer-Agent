@@ -97,6 +97,7 @@ LLM / 嵌入 / 向量库均为「模块级缓存 + 懒加载单例」：
 - `.env.example` 中 `OPENAL_APLKEY=` **必须留空**；提交前 `grep OPENAL_APLKEY server/.env.example` 确认。
 - 目录默认：`UPLOAD_DIR=F:/uploads14`、`CHROMA_DIR=F:/uploads14/chroma`；静态挂载 `/uploads14`。
 - `EMBEDDING_DIM=1024`（qwen3.7-text-embedding-flash 实测上限，**勿设 2048**）。
+- `JWT_SECRET` 生产环境必须为随机长字符串，弱默认值会被启动校验拒绝（开发环境仅告警）。
 
 ## 6. LLM / RAG 硬约束
 
