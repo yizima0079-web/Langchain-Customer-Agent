@@ -111,6 +111,22 @@ npm run dev
 Copy-Item server/assets/product F:/uploads14/product -Recurse -Force
 ```
 
+## Docker 一键部署
+
+项目提供 `docker-compose.yml`，无需本机配置 Python / Node / MySQL 环境，一条命令拉起 MySQL 8 + 后端 + 前端（Nginx）：
+
+```bash
+export OPENAL_APLKEY=sk-xxx      # 大模型密钥（Windows: set OPENAL_APLKEY=sk-xxx）
+docker compose up -d --build
+```
+
+- 前端：http://localhost/
+- 后端文档：http://localhost:8000/docs
+- 首次启动自动执行 `server/sql/` 下的建表与种子数据脚本
+- 上传文件与向量库通过卷 `uploads` 持久化，MySQL 数据通过卷 `mysql_data` 持久化
+
+> 后端镜像基础为 `python:3.12-slim`（chromadb 的 onnxruntime 等原生库 3.12 预编译 wheel 最齐全，保证 `docker build` 一次成功），功能与本地 Python 3.14 一致。
+
 ## 注意事项
 
 - 不要提交 `.env`、API 密钥、数据库备份、真实用户数据、Chroma 数据、上传目录、`node_modules`、`dist`、`.venv` 或 Python 缓存。

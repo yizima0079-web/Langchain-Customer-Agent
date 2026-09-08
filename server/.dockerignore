@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+uploads/
+chroma/
+*.db
+tests/
+pytest.ini
+requirements-dev.txt
