@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.deps import get_current_user, get_db
-from app.core.security import create_access_token, md5_hash, verify_password
+from app.core.security import create_access_token, hash_password, needs_rehash, verify_password
 from app.models.user import User
 from app.schemas.common import Response
 from app.schemas.user import LoginRequest, Token, UserCreate, UserOut
@@ -19,7 +19,7 @@ def register(req: UserCreate, db: Session = Depends(get_db)):
 
     user = User(
         username=req.username,
-        password=md5_hash(req.password),
+        password=hash_password(req.password),
         nickname=req.nickname or req.username,
         phone=req.phone,
         email=req.email,
@@ -40,6 +40,11 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="用户名或密码错误")
     if user.status == 0:
         raise HTTPException(status_code=403, detail="账号已被禁用")
+
+    # 历史 MD5 密码登录成功后自动升级为 bcrypt
+    if needs_rehash(user.password):
+        user.password = hash_password(req.password)
+        db.commit()
 
     token = create_access_token(user.id)
     return Response(data=Token(access_token=token, user=user))

@@ -1,6 +1,6 @@
 ﻿-- =============================================================
 -- 测试数据
--- 说明：所有用户密码统一为 123456，其 MD5 值为 e10adc3949ba59abbe56e057f20f883e
+-- 说明：所有用户密码统一为 123456，其 bcrypt 哈希值为 $2b$12$qajQgdEjl9PhJdttkrSvju4BgKDY4S1B1ETHQIN2Gik3H5pLXg/xm
 -- =============================================================
 
 USE `shop_agent`;
@@ -8,10 +8,10 @@ USE `shop_agent`;
 -- ------------------------- 用户 -------------------------
 -- 管理员账号 admin / 123456
 INSERT INTO `user` (`id`, `username`, `password`, `nickname`, `avatar`, `phone`, `email`, `role`, `status`) VALUES
-(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '系统管理员', NULL, '13800000000', 'admin@shop.com', 1, 1),
-(2, 'zhangsan', 'e10adc3949ba59abbe56e057f20f883e', '张三', NULL, '13800000001', 'zhangsan@qq.com', 0, 1),
-(3, 'lisi', 'e10adc3949ba59abbe56e057f20f883e', '李四', NULL, '13800000002', 'lisi@qq.com', 0, 1),
-(4, 'wangwu', 'e10adc3949ba59abbe56e057f20f883e', '王五', NULL, '13800000003', 'wangwu@qq.com', 0, 1);
+(1, 'admin', '$2b$12$qajQgdEjl9PhJdttkrSvju4BgKDY4S1B1ETHQIN2Gik3H5pLXg/xm', '系统管理员', NULL, '13800000000', 'admin@shop.com', 1, 1),
+(2, 'zhangsan', '$2b$12$qajQgdEjl9PhJdttkrSvju4BgKDY4S1B1ETHQIN2Gik3H5pLXg/xm', '张三', NULL, '13800000001', 'zhangsan@qq.com', 0, 1),
+(3, 'lisi', '$2b$12$qajQgdEjl9PhJdttkrSvju4BgKDY4S1B1ETHQIN2Gik3H5pLXg/xm', '李四', NULL, '13800000002', 'lisi@qq.com', 0, 1),
+(4, 'wangwu', '$2b$12$qajQgdEjl9PhJdttkrSvju4BgKDY4S1B1ETHQIN2Gik3H5pLXg/xm', '王五', NULL, '13800000003', 'wangwu@qq.com', 0, 1);
 
 -- ------------------------- 分类 -------------------------
 INSERT INTO `category` (`id`, `name`, `sort`, `status`) VALUES

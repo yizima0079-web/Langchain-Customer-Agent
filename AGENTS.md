@@ -75,12 +75,15 @@ return Response(data={"items": items})
 LLM / 嵌入 / 向量库均为「模块级缓存 + 懒加载单例」：
 `get_llm()`、`get_embeddings()`、`get_vectorstore()`。新增外部资源连接**必须**沿用该模式，避免每请求重复建连。
 
+### 3.8 下单库存并发（防超卖）
+扣库存前**必须** `with_for_update()` 行锁，且按商品 id 排序锁定顺序（避免死锁）。见 `order.py::create_order`。
+
 ## 4. 数据库硬约束
 
 - **host 一律 `localhost`**，不用 `127.0.0.1`（MySQL 8 在 Windows 常仅监听 IPv6 `::1`）。
 - 连接串密码用 `quote_plus` 转义 + `charset=utf8mb4`（见 `core/config.py::database_url`）。
 - 连接池 `pool_pre_ping=True`、`pool_recycle=3600` 保持不动。
-- 用户密码 MD5 存储，测试账号 `admin/123456`、`zhangsan/123456` 等；**不要改哈希方案**。
+- 用户密码 **bcrypt** 存储（`core/security.py`）；历史 MD5 密码登录成功后自动升级为 bcrypt，勿改回 MD5。测试账号 `admin/123456`、`zhangsan/123456` 等。
 - 字段语义：`user.role` 0=普通/1=管理；`user.status` 0=禁用/1=正常；`product.status` 0=下架/1=上架。
 - 数据库密码以 `server/.env` 为准（当前 `MySQL@123456`）。
 

@@ -1,15 +1,16 @@
-"""安全相关工具：密码 MD5 加密、JWT 令牌签发与解析。"""
+"""安全相关工具：密码哈希（bcrypt）、JWT 令牌签发与解析。"""
 import hashlib
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+import bcrypt
 import jwt
 
 from app.core.config import settings
 
 
 def md5_hash(text: str) -> str:
-    """对字符串做 MD5 加密（用于用户密码存储）。
+    """对字符串做 MD5 加密（仅用于兼容历史 MD5 密码，新密码一律 bcrypt）。
 
     Args:
         text: 原始字符串。
@@ -20,9 +21,36 @@ def md5_hash(text: str) -> str:
     return hashlib.md5(text.encode("utf-8")).hexdigest()
 
 
+def hash_password(plain: str) -> str:
+    """使用 bcrypt 对明文密码做加盐哈希。
+
+    Args:
+        plain: 原始明文密码。
+
+    Returns:
+        bcrypt 哈希串（以 $2b$ 开头）。
+    """
+    return bcrypt.hashpw(plain.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
+
+def _is_md5(hashed: str) -> bool:
+    """判断哈希串是否为历史 MD5 格式（32 位十六进制）。"""
+    return len(hashed) == 32 and all(c in "0123456789abcdef" for c in hashed.lower())
+
+
 def verify_password(plain: str, hashed: str) -> bool:
-    """校验明文密码与 MD5 密文是否一致。"""
-    return md5_hash(plain) == hashed
+    """校验明文密码与哈希是否一致，兼容历史 MD5 与 bcrypt 两种格式。"""
+    if _is_md5(hashed):
+        return md5_hash(plain) == hashed
+    try:
+        return bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
+    except ValueError:
+        return False
+
+
+def needs_rehash(hashed: str) -> bool:
+    """判断密码哈希是否需要从历史 MD5 升级为 bcrypt。"""
+    return _is_md5(hashed)
 
 
 def create_access_token(subject: str | int, extra: dict[str, Any] | None = None) -> str:

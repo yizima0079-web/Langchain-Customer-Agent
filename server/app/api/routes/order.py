@@ -40,29 +40,45 @@ def create_order(
 
     if req.items:
         # 立即购买：按指定商品与数量
-        for it in req.items:
-            product = db.query(Product).filter(Product.id == it.product_id).first()
-            if not product or product.status != 1:
-                raise HTTPException(status_code=400, detail=f"商品 {it.product_id} 不存在或已下架")
-            if product.stock < it.quantity:
-                raise HTTPException(status_code=400, detail=f"商品「{product.name}」库存不足")
-            items.append((product, it.quantity))
+        candidates = [(it.product_id, it.quantity) for it in req.items]
+        from_cart = False
     else:
         # 购物车结算
         carts = db.query(Cart).filter(Cart.user_id == current_user.id).all()
         if not carts:
             raise HTTPException(status_code=400, detail="购物车为空")
-        for c in carts:
-            product = db.query(Product).filter(Product.id == c.product_id).first()
-            if not product or product.status != 1:
-                continue
-            if product.stock < c.quantity:
-                raise HTTPException(status_code=400, detail=f"商品「{product.name}」库存不足")
-            items.append((product, c.quantity))
-        db.query(Cart).filter(Cart.user_id == current_user.id).delete()
+        candidates = [(c.product_id, c.quantity) for c in carts]
+        from_cart = True
+
+    if not candidates:
+        raise HTTPException(status_code=400, detail="没有可结算的商品")
+
+    # 按商品 id 排序后一次性加行锁，锁定顺序一致（避免死锁）并防止并发超卖
+    product_ids = sorted({pid for pid, _ in candidates})
+    locked = (
+        db.query(Product)
+        .filter(Product.id.in_(product_ids))
+        .with_for_update()
+        .all()
+    )
+    product_map = {p.id: p for p in locked}
+
+    for pid, qty in candidates:
+        product = product_map.get(pid)
+        if not product or product.status != 1:
+            if from_cart:
+                continue  # 购物车结算：跳过已下架/失效商品
+            raise HTTPException(status_code=400, detail=f"商品 {pid} 不存在或已下架")
+        if product.stock < qty:
+            raise HTTPException(status_code=400, detail=f"商品「{product.name}」库存不足")
+        items.append((product, qty))
 
     if not items:
         raise HTTPException(status_code=400, detail="没有可结算的商品")
+
+    # 购物车结算成功后清空购物车
+    if from_cart:
+        db.query(Cart).filter(Cart.user_id == current_user.id).delete()
 
     total = sum(float(p.price) * q for p, q in items)
     order = Order(

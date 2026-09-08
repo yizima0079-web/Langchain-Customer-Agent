@@ -17,6 +17,7 @@ pymysql==1.2.0
 
 # 认证
 PyJWT==2.13.0
+bcrypt==5.0.0
 
 # LangChain 相关
 langchain==1.4.0
