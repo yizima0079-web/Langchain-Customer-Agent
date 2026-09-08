@@ -1,0 +1,45 @@
+name: CI
+
+# 每次 push / PR 到 master 自动跑后端单元测试 + 前端构建
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  backend-test:
+    name: 后端单元测试
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      # 单元测试仅覆盖密码哈希 / 上传校验 / 配置，无需 MySQL 与 LLM，
+      # 因此只装最小测试依赖（版本与 requirements.txt 对齐），不装 langchain/chromadb 等重依赖
+      - name: 安装测试依赖
+        working-directory: server
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest==9.1.1 fastapi==0.141.1 bcrypt==5.0.0 PyJWT==2.13.0 pydantic==2.13.5 pydantic-settings==2.15.0
+      - name: 运行单元测试
+        working-directory: server
+        run: python -m pytest -q
+
+  frontend-build:
+    name: 前端构建
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - name: 安装依赖
+        working-directory: client
+        run: npm ci
+      - name: 构建
+        working-directory: client
+        run: npm run build
