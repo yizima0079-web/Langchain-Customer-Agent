@@ -19,6 +19,36 @@ docs/     架构设计与客服知识库文档
 - 微信小程序 AI 客服 SSE 流式输出，并兼容同步接口降级。
 - Web 管理后台数据统计、知识库维护和 AI 客服调试。
 
+## 界面预览
+
+截图来自本地开发环境的演示数据，可在 [docs/screenshots/](docs/screenshots/) 查看原图。
+
+### Web 管理后台（Vue 3 + Element Plus）
+
+| 登录页 | 数据统计工作台 |
+| :---: | :---: |
+| ![管理后台登录页](docs/screenshots/01-管理后台-登录页.png) | ![数据统计](docs/screenshots/02-管理后台-数据统计.png) |
+
+| 商品管理 | 订单管理 | 知识库管理 |
+| :---: | :---: | :---: |
+| ![商品管理](docs/screenshots/03-管理后台-商品管理.png) | ![订单管理](docs/screenshots/04-管理后台-订单管理.png) | ![知识库管理](docs/screenshots/05-管理后台-知识库管理.png) |
+
+### 微信小程序
+
+首页轮播 + 分类商品、订单状态流转、LangChain + Chroma RAG 知识库 AI 客服对话（SSE 流式）。
+
+| 商城首页 | 订单列表 | AI 智能客服 |
+| :---: | :---: | :---: |
+| <img src="docs/screenshots/08-小程序-商城首页.png" width="240"> | <img src="docs/screenshots/09-小程序-订单列表.png" width="240"> | <img src="docs/screenshots/10-小程序-AI客服.png" width="240"> |
+
+### 数据库（MySQL 8）
+
+`shop_agent` 库共 9 张业务表：`user / address / category / product / order / order_item / banner / knowledge_file / chat_message`。
+
+| 表结构 | 商品表数据 |
+| :---: | :---: |
+| ![数据库表结构](docs/screenshots/06-数据库-表结构.png) | ![商品表数据](docs/screenshots/07-数据库-商品表数据.png) |
+
 ## 数据库初始化
 
 仓库只提交初始化 SQL，不提交真实数据库、运行时数据库或向量库：
