@@ -78,6 +78,9 @@ LLM / 嵌入 / 向量库均为「模块级缓存 + 懒加载单例」：
 ### 3.8 下单库存并发（防超卖）
 扣库存前**必须** `with_for_update()` 行锁，且按商品 id 排序锁定顺序（避免死锁）。见 `order.py::create_order`。
 
+### 3.9 上传文件安全（防穿越 / 伪装 / 大文件）
+上传文件必须走 `app/utils/uploads.py` 的 `read_limited`（分块限流）、`validate_image_content`（图片魔数）、`safe_subdir`（防路径穿越），**禁止**直接 `file.file.read()` 整读，或对 `category` 拼路径不做校验。
+
 ## 4. 数据库硬约束
 
 - **host 一律 `localhost`**，不用 `127.0.0.1`（MySQL 8 在 Windows 常仅监听 IPv6 `::1`）。

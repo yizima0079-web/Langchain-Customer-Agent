@@ -9,9 +9,12 @@ from app.core.config import settings
 from app.models.knowledge import KnowledgeFile
 from app.services.document_loader import SUPPORTED_EXTENSIONS, load_documents, split_documents
 from app.services.vectorstore import get_vectorstore
+from app.utils.uploads import read_limited
 
 # 知识库文件落盘子目录（位于 F:/uploads14/knowledge）
 KNOWLEDGE_DIR = os.path.join(settings.UPLOAD_DIR, "knowledge")
+# 知识库文件大小上限（20MB）
+MAX_KNOWLEDGE_SIZE = 20 * 1024 * 1024
 
 
 def _ensure_dir() -> None:
@@ -51,7 +54,8 @@ def save_and_vectorize(file: UploadFile, db: Session) -> KnowledgeFile:
 
     # 落盘：使用 uuid 重命名，避免中文/重名冲突
     _ensure_dir()
-    content = file.file.read()
+    # 分块读取并限制大小，避免大文件整读占用内存
+    content = read_limited(file, MAX_KNOWLEDGE_SIZE)
     store_name = f"{uuid.uuid4().hex}.{ext}"
     store_path = os.path.join(KNOWLEDGE_DIR, store_name)
     with open(store_path, "wb") as f:
