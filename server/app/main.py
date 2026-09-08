@@ -4,6 +4,7 @@
 """
 import logging
 import os
+import time
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,6 +27,12 @@ from app.api.routes import (
     user,
 )
 from app.core.config import settings
+
+# 基础日志配置（格式含时间 / 级别 / 模块名）
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
+)
 
 logger = logging.getLogger("app.main")
 
@@ -66,6 +73,20 @@ def create_app() -> FastAPI:
                 "detail": "服务器内部错误",
             },
         )
+
+    # 请求日志中间件：记录方法 / 路径 / 状态码 / 耗时
+    @application.middleware("http")
+    async def log_requests(request: Request, call_next):
+        start = time.perf_counter()
+        response = await call_next(request)
+        logger.info(
+            "%s %s -> %d (%.0fms)",
+            request.method,
+            request.url.path,
+            response.status_code,
+            (time.perf_counter() - start) * 1000,
+        )
+        return response
 
     # 挂载上传目录为静态资源（供图片/文件访问）
     os.makedirs(settings.UPLOAD_DIR, exist_ok=True)

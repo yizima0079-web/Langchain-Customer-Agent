@@ -84,6 +84,9 @@ LLM / 嵌入 / 向量库均为「模块级缓存 + 懒加载单例」：
 ### 3.10 全局异常处理
 未捕获异常由 `main.py` 全局 handler 统一返回 `500 服务器内部错误`（不泄露堆栈）；业务错误用 `HTTPException(detail=中文)`。新增路由不要在内部 try/except 吞掉异常再返回裸 500。
 
+### 3.11 分页与日志
+list 接口必须限制 `size <= 100`（防全表拉取）；统一用 `logging.getLogger("app.xxx")` 记录关键操作，勿用 `print`。
+
 ## 4. 数据库硬约束
 
 - **host 一律 `localhost`**，不用 `127.0.0.1`（MySQL 8 在 Windows 常仅监听 IPv6 `::1`）。

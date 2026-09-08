@@ -122,6 +122,8 @@ def list_orders(
     db: Session = Depends(get_db),
 ):
     """订单列表：普通用户查看自己的订单，管理员查看全部。"""
+    page = max(page, 1)
+    size = min(max(size, 1), 100)  # 限制单页条数，防止一次拉取全表
     query = db.query(Order)
     if current_user.role != 1:
         query = query.filter(Order.user_id == current_user.id)

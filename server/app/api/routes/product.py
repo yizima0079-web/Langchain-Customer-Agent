@@ -21,6 +21,8 @@ def list_products(
     db: Session = Depends(get_db),
 ):
     """分页查询商品，支持分类过滤、关键字搜索、仅上架过滤。"""
+    page = max(page, 1)
+    size = min(max(size, 1), 100)  # 限制单页条数，防止一次拉取全表
     query = db.query(Product)
     if category_id:
         query = query.filter(Product.category_id == category_id)

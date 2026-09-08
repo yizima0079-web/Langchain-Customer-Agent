@@ -20,6 +20,8 @@ def list_users(
     _: User = Depends(get_current_admin),
 ):
     """分页查询用户列表，支持按账号/昵称关键字搜索。"""
+    page = max(page, 1)
+    size = min(max(size, 1), 100)  # 限制单页条数，防止一次拉取全表
     query = db.query(User)
     if keyword:
         query = query.filter(
