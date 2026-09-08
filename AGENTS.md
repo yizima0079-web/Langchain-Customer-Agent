@@ -33,6 +33,9 @@ mysql -h localhost -P3306 -uroot -p < server/sql/data.sql
 
 # 健康检查
 curl http://127.0.0.1:8000/api/v1/health
+
+# 单元测试（在 server/ 目录下，先 pip install -r requirements-dev.txt）
+python -m pytest -q
 ```
 
 改动后端后**至少跑** `compileall` + `import app.main` 两项；改动前端页面后**至少跑** `npm run build`。
@@ -146,5 +149,5 @@ limiter 单例在 `core/limiter.py`（独立模块避免 main↔auth 循环导�
 
 ## 11. 已知待办
 
-1. 补最小冒烟测试到 `server/tests/`（当前无入库 pytest；日常改动用「curl 健康检查 + 登录 + 列表接口」做端到端冒烟代替）。
+1. 已补 `server/tests/` 单元测试（密码哈希 / 上传校验 / 配置，共 13 例），改后端跑 `python -m pytest -q`；端到端仍用「curl 健康检查 + 登录 + 列表接口」冒烟。
 2. 前端构建产物 `dashboard`/`index` chunk 超过 500 kB，若在意首屏性能可做 `dynamic import()` 路由级拆包（当前不影响运行）。
