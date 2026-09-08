@@ -4,6 +4,16 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+## 技术栈
+
+| 端 | 技术 |
+| :--- | :--- |
+| 后端 server/ | <img src="https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white"> <img src="https://img.shields.io/badge/FastAPI-0.141-009688?logo=fastapi&logoColor=white"> <img src="https://img.shields.io/badge/LangChain-1.4-1C3C3C?logo=langchain"> <img src="https://img.shields.io/badge/SQLAlchemy-2.0.5-D71F00?logo=sqlalchemy"> <img src="https://img.shields.io/badge/Chroma-1.5-1677FF"> <img src="https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/阿里云百炼-DashScope-FF6A00?logo=alibabacloud&logoColor=white"> |
+| 管理后台 client/ | <img src="https://img.shields.io/badge/Vue-3-4FC08D?logo=vuedotjs&logoColor=white"> <img src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Element_Plus-UI-409EFF"> <img src="https://img.shields.io/badge/ECharts-图表-FC4E14?logo=apacheecharts&logoColor=white"> <img src="https://img.shields.io/badge/Pinia-状态管理-FFD859?logo=pinia"> |
+| 小程序 weixin/ | <img src="https://img.shields.io/badge/微信小程序-原生-07C160?logo=wechat&logoColor=white"> |
+
+技术方案亮点：`LangChain LCEL` 串联 RAG（检索增强生成），`Chroma` 本地向量库持久化；AI 客服支持 SSE 流式输出与知识库来源引用；AI 能力走 OpenAI 兼容接口接入阿里云百炼 DashScope（Qwen 大模型）。
+
 ## 项目组成
 
 ```text
