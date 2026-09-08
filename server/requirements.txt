@@ -6,6 +6,7 @@
 fastapi==0.141.1
 uvicorn[standard]==0.52.4
 python-multipart==0.0.32
+slowapi==0.1.10
 
 # 数据校验与配置
 pydantic==2.13.5

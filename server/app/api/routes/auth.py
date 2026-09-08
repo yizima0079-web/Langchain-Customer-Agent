@@ -1,8 +1,9 @@
 """认证路由：注册、登录、当前用户信息。"""
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.core.deps import get_current_user, get_db
+from app.core.limiter import limiter
 from app.core.security import create_access_token, hash_password, needs_rehash, verify_password
 from app.models.user import User
 from app.schemas.common import Response
@@ -12,8 +13,9 @@ router = APIRouter(prefix="/auth", tags=["认证"])
 
 
 @router.post("/register", response_model=Response[UserOut], summary="用户注册")
-def register(req: UserCreate, db: Session = Depends(get_db)):
-    """注册普通用户（密码 MD5 加密存储）。"""
+@limiter.limit("5/minute")
+def register(request: Request, req: UserCreate, db: Session = Depends(get_db)):
+    """注册普通用户（密码 bcrypt 存储），单 IP 每分钟限 5 次防批量注册。"""
     if db.query(User).filter(User.username == req.username).first():
         raise HTTPException(status_code=400, detail="用户名已存在")
 
@@ -33,8 +35,9 @@ def register(req: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post("/login", response_model=Response[Token], summary="用户登录")
-def login(req: LoginRequest, db: Session = Depends(get_db)):
-    """校验账号密码并签发 JWT。"""
+@limiter.limit("5/minute")
+def login(request: Request, req: LoginRequest, db: Session = Depends(get_db)):
+    """校验账号密码并签发 JWT，单 IP 每分钟限 5 次防暴力破解。"""
     user = db.query(User).filter(User.username == req.username).first()
     if not user or not verify_password(req.password, user.password):
         raise HTTPException(status_code=400, detail="用户名或密码错误")

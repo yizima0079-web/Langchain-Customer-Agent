@@ -87,6 +87,10 @@ LLM / 嵌入 / 向量库均为「模块级缓存 + 懒加载单例」：
 ### 3.11 分页与日志
 list 接口必须限制 `size <= 100`（防全表拉取）；统一用 `logging.getLogger("app.xxx")` 记录关键操作，勿用 `print`。
 
+### 3.12 速率限制（防暴力破解）
+敏感接口（登录/注册）用 slowapi 限流：路由函数加 `request: Request` 参数 + `@limiter.limit("5/minute")` 装饰器。
+limiter 单例在 `core/limiter.py`（独立模块避免 main↔auth 循环导入），`main.py` 已注册 `app.state.limiter` 与 429 处理器，新增限流接口**勿重复注册**。
+
 ## 4. 数据库硬约束
 
 - **host 一律 `localhost`**，不用 `127.0.0.1`（MySQL 8 在 Windows 常仅监听 IPv6 `::1`）。

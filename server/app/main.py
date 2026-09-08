@@ -10,6 +10,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from slowapi.errors import RateLimitExceeded
 
 from app.api.routes import (
     address,
@@ -27,6 +28,7 @@ from app.api.routes import (
     user,
 )
 from app.core.config import settings
+from app.core.limiter import limiter
 
 # 基础日志配置（格式含时间 / 级别 / 模块名）
 logging.basicConfig(
@@ -87,6 +89,21 @@ def create_app() -> FastAPI:
             (time.perf_counter() - start) * 1000,
         )
         return response
+
+    # 速率限制：注册 limiter 到 app.state，超限返回 429
+    application.state.limiter = limiter
+
+    @application.exception_handler(RateLimitExceeded)
+    async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+        return JSONResponse(
+            status_code=429,
+            content={
+                "code": 429,
+                "message": "请求过于频繁，请稍后再试",
+                "data": None,
+                "detail": "请求过于频繁",
+            },
+        )
 
     # 挂载上传目录为静态资源（供图片/文件访问）
     os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
