@@ -1,28 +1,36 @@
+# 依赖版本已按当前 venv 实测环境锁定（==），保证任何机器安装后行为一致。
+# 注意：LangChain 1.4 已移除 langchain.chains，本项目全部使用 LCEL 写法，
+# 请勿升级到可能破坏该写法的版本。
+
 # Web 框架
-fastapi>=0.115
-uvicorn[standard]>=0.30
-python-multipart>=0.0.9
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+python-multipart==0.0.32
 
 # 数据校验与配置
-pydantic>=2.6
-pydantic-settings>=2.6
+pydantic==2.13.5
+pydantic-settings==2.15.0
 
 # 数据库
-sqlalchemy>=2.0
-pymysql>=1.1
+sqlalchemy==2.0.52
+pymysql==1.2.0
 
 # 认证
-PyJWT>=2.8
+PyJWT==2.13.0
 
 # LangChain 相关
-langchain>=0.3
-langchain-community>=0.3
-langchain-openai>=0.2
-langchain-text-splitters>=0.3
+langchain==1.4.0
+langchain-core==1.6.2
+langchain-community==0.4.2
+langchain-openai==1.6.0
+langchain-text-splitters==1.1.2
+
+# OpenAI 兼容客户端（嵌入直连用）
+openai==3.8.0
 
 # 向量数据库
-chromadb>=0.5
+chromadb==1.5.9
 
 # 文档解析（txt / doc / docx / pdf / markdown）
-pypdf>=5.0
-python-docx>=1.1
+pypdf==6.18.0
+python-docx==1.2.0
