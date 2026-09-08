@@ -2,6 +2,8 @@
 
 基于 LangChain 的 AI 智能客服微信小程序商城系统，包含 FastAPI 后端、Vue 3 管理后台和微信原生小程序。
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ## 项目组成
 
 ```text
@@ -112,3 +114,7 @@ Copy-Item server/assets/product F:/uploads14/product -Recurse -Force
 - [架构设计](docs/架构设计.md)
 - [客服知识库手册](docs/客服知识库手册.md)
 - [后端说明](server/README.md)
+
+## 开源协议
+
+本项目基于 [MIT](LICENSE) 协议开源，可自由使用、修改与商用。仓库内的演示图片素材（`server/assets/product/`、`docs/screenshots/`）仅用于开发演示，正式使用需替换为已获授权的素材。
