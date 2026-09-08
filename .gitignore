@@ -49,3 +49,4 @@ chroma/
 Thumbs.db
 *.suo
 *.swp
+release/
