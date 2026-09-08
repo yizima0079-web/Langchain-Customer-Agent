@@ -2,10 +2,12 @@
 
 负责创建应用实例、注册中间件、挂载静态目录与各业务路由。
 """
+import logging
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import (
@@ -24,6 +26,8 @@ from app.api.routes import (
     user,
 )
 from app.core.config import settings
+
+logger = logging.getLogger("app.main")
 
 
 def create_app() -> FastAPI:
@@ -48,6 +52,20 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    # 全局异常处理：未捕获异常统一返回，避免堆栈泄露
+    @application.exception_handler(Exception)
+    async def unhandled_exception_handler(request: Request, exc: Exception):
+        logger.exception("未处理异常: %s %s (%s)", request.method, request.url.path, type(exc).__name__)
+        return JSONResponse(
+            status_code=500,
+            content={
+                "code": 500,
+                "message": "服务器内部错误",
+                "data": None,
+                "detail": "服务器内部错误",
+            },
+        )
 
     # 挂载上传目录为静态资源（供图片/文件访问）
     os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
