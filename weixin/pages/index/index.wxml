@@ -1,0 +1,48 @@
+<!--pages/index/index.wxml 首页-->
+<view class="container">
+  <!-- 顶部轮播图 -->
+  <swiper
+    wx:if="{{banners.length}}"
+    class="banner-swiper"
+    indicator-dots
+    autoplay
+    circular
+    interval="3500"
+    duration="400"
+    indicator-active-color="#409eff"
+  >
+    <swiper-item wx:for="{{banners}}" wx:key="id">
+      <image src="{{item.image}}" mode="aspectFill" class="banner-img" />
+    </swiper-item>
+  </swiper>
+
+  <!-- 分类横向滚动 -->
+  <scroll-view scroll-x class="cat-scroll">
+    <view class="cat-item {{activeCategory === null ? 'active' : ''}}" bindtap="onAllTap">全部</view>
+    <view
+      wx:for="{{categories}}"
+      wx:key="id"
+      class="cat-item {{activeCategory === item.id ? 'active' : ''}}"
+      bindtap="onCategoryTap"
+      data-id="{{item.id}}"
+    >{{item.name}}</view>
+  </scroll-view>
+
+  <!-- 商品网格 -->
+  <view class="product-grid">
+    <view
+      wx:for="{{products}}"
+      wx:key="id"
+      class="product-card"
+      bindtap="onProductTap"
+      data-id="{{item.id}}"
+    >
+      <image src="{{item.cover_image}}" mode="aspectFill" class="product-img" />
+      <view class="product-name">{{item.name}}</view>
+      <view class="product-price">¥{{item.price}}</view>
+      <view class="product-sales">已售{{item.sales}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!products.length}}" class="empty">暂无商品</view>
+</view>

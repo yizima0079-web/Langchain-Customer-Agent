@@ -1,0 +1,87 @@
+<!--pages/order/order.wxml 订单-->
+<!-- ========== 订单列表模式 ========== -->
+<view wx:if="{{mode === 'list'}}" class="container">
+  <scroll-view scroll-x class="tabs">
+    <view
+      wx:for="{{statusTabs}}"
+      wx:key="label"
+      class="tab {{status === item.value ? 'active' : ''}}"
+      bindtap="onStatusTap"
+      data-value="{{item.value}}"
+    >{{item.label}}</view>
+  </scroll-view>
+
+  <view wx:for="{{orders}}" wx:key="id" class="order-card card">
+    <view class="order-head">
+      <text class="order-no">{{item.order_no}}</text>
+      <text class="order-status">{{['待付款','待发货','待收货','已完成','已取消'][item.status]}}</text>
+    </view>
+    <view wx:for="{{item.items}}" wx:for-item="it" wx:key="id" class="order-item">
+      <image src="{{it.product_image}}" mode="aspectFill" class="img" />
+      <view class="info">
+        <view class="name">{{it.product_name}}</view>
+        <view class="price">¥{{it.price}} × {{it.quantity}}</view>
+      </view>
+    </view>
+    <view class="order-foot">
+      <text>合计：<text class="price">¥{{item.total_amount}}</text></text>
+      <button
+        wx:if="{{item.status === 0}}"
+        class="cancel-order"
+        size="mini"
+        data-id="{{item.id}}"
+        bindtap="cancelOrder"
+      >取消订单</button>
+    </view>
+  </view>
+  <view wx:if="{{!orders.length}}" class="empty">暂无订单</view>
+</view>
+
+<!-- ========== 下单模式 ========== -->
+<view wx:elif="{{mode === 'create'}}" class="container">
+  <!-- 收货信息 -->
+  <view class="card">
+    <view class="card-title">收货信息</view>
+    <view wx:for="{{addresses}}" wx:key="id" class="saved-address {{!useNewAddress && selectedAddressId === item.id ? 'selected' : ''}}" data-id="{{item.id}}" bindtap="selectAddress">
+      <view class="address-radio">{{!useNewAddress && selectedAddressId === item.id ? '✓' : ''}}</view>
+      <view class="address-info">
+        <view class="address-main">{{item.name}}　{{item.phone}}</view>
+        <view class="address-detail">{{item.province}}{{item.city}}{{item.district}}{{item.detail}}</view>
+      </view>
+      <text wx:if="{{item.is_default}}" class="default-tag">默认</text>
+    </view>
+    <view class="new-address {{useNewAddress ? 'selected' : ''}}" bindtap="onUseNewAddress">
+      <view class="address-radio">{{useNewAddress ? '✓' : '+'}}</view>
+      <view class="address-info"><view class="address-main">使用新地址</view><view class="address-detail">重新填写收货信息</view></view>
+    </view>
+    <view wx:if="{{useNewAddress}}" class="new-address-form">
+      <input class="input" placeholder="收货人姓名" data-field="name" value="{{address.name}}" bindinput="onAddressInput" />
+      <input class="input" placeholder="手机号" type="number" data-field="phone" value="{{address.phone}}" bindinput="onAddressInput" />
+      <input class="input" placeholder="详细地址" data-field="detail" value="{{address.detail}}" bindinput="onAddressInput" />
+    </view>
+  </view>
+
+  <!-- 商品清单 -->
+  <view class="card">
+    <view class="card-title">商品清单</view>
+    <view wx:for="{{orderItems}}" wx:key="product_id" class="order-item">
+      <image src="{{item.product_image}}" mode="aspectFill" class="img" />
+      <view class="info">
+        <view class="name">{{item.product_name}}</view>
+        <view class="price">¥{{item.price}} × {{item.quantity}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="card">
+    <view class="card-title">备注</view>
+    <input class="input" placeholder="选填" value="{{remark}}" bindinput="onRemarkInput" />
+  </view>
+
+  <!-- 底部提交栏 -->
+  <view class="footer">
+    <view class="total">合计：<text class="price">¥{{total}}</text></view>
+    <button class="submit" bindtap="submitOrder" disabled="{{submitting}}">提交订单</button>
+  </view>
+</view>

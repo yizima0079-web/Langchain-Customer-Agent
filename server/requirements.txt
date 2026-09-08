@@ -1,0 +1,28 @@
+# Web 框架
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+
+# 数据校验与配置
+pydantic>=2.6
+pydantic-settings>=2.6
+
+# 数据库
+sqlalchemy>=2.0
+pymysql>=1.1
+
+# 认证
+PyJWT>=2.8
+
+# LangChain 相关
+langchain>=0.3
+langchain-community>=0.3
+langchain-openai>=0.2
+langchain-text-splitters>=0.3
+
+# 向量数据库
+chromadb>=0.5
+
+# 文档解析（txt / doc / docx / pdf / markdown）
+pypdf>=5.0
+python-docx>=1.1

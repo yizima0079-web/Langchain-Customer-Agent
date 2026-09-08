@@ -1,0 +1,14 @@
+{
+  "appid": "wxc6e167218b4b550e",
+  "compileType": "miniprogram",
+  "libVersion": "3.4.0",
+  "projectname": "shop-agent-weixin",
+  "setting": {
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
+    "urlCheck": false
+  },
+  "condition": {}
+}

@@ -1,0 +1,78 @@
+/**pages/index/index.wxss 首页样式**/
+.container {
+  padding: 0 20rpx 20rpx;
+}
+
+/* 顶部轮播图 */
+.banner-swiper {
+  height: 300rpx;
+  margin-top: 20rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+.banner-img {
+  width: 100%;
+  height: 300rpx;
+  background: #f0f0f0;
+}
+
+/* 分类横滑 */
+.cat-scroll {
+  white-space: nowrap;
+  padding: 20rpx 0;
+}
+.cat-item {
+  display: inline-block;
+  padding: 10rpx 28rpx;
+  margin-right: 16rpx;
+  background: #fff;
+  border-radius: 30rpx;
+  color: #666;
+  font-size: 26rpx;
+}
+.cat-item.active {
+  background: #409eff;
+  color: #fff;
+}
+
+/* 商品网格 */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.product-card {
+  width: 48%;
+  background: #fff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+.product-img {
+  width: 100%;
+  height: 340rpx;
+  background: #f0f0f0;
+}
+.product-name {
+  font-size: 28rpx;
+  padding: 12rpx 16rpx 4rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.product-price {
+  color: #e4393c;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 0 16rpx;
+}
+.product-sales {
+  color: #999;
+  font-size: 22rpx;
+  padding: 6rpx 16rpx 16rpx;
+}
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 100rpx 0;
+}

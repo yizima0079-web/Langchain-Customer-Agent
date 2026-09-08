@@ -1,0 +1,75 @@
+/**pages/chat/chat.wxss AI 客服样式**/
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: 128rpx;
+}
+.messages {
+  flex: 1;
+  padding: 20rpx;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+.welcome {
+  text-align: center;
+  padding-top: 120rpx;
+}
+.welcome-title {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #333;
+}
+.welcome-sub {
+  color: #999;
+  font-size: 26rpx;
+  margin-top: 16rpx;
+}
+.msg {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24rpx;
+}
+.msg.user {
+  align-items: flex-end;
+}
+.msg.assistant {
+  align-items: flex-start;
+}
+.bubble {
+  max-width: 76%;
+  padding: 20rpx 24rpx;
+  border-radius: 12rpx;
+  background: #fff;
+  line-height: 1.6;
+  font-size: 28rpx;
+  word-break: break-all;
+}
+.cursor { color: #409eff; margin-left: 4rpx; }
+.msg.user .bubble {
+  background: #409eff;
+  color: #fff;
+}
+.input-bar {
+  display: flex;
+  gap: 16rpx;
+  padding: 16rpx 20rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+}
+.input {
+  flex: 1;
+  background: #f5f5f5;
+  border-radius: 40rpx;
+  padding: 16rpx 24rpx;
+  font-size: 28rpx;
+}
+.send-btn {
+  background: #409eff;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  margin: 0;
+  padding: 0 36rpx;
+}

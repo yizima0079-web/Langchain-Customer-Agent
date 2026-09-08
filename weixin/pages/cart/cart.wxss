@@ -1,0 +1,93 @@
+/**pages/cart/cart.wxss 购物车样式**/
+.container {
+  padding: 20rpx;
+  padding-bottom: 140rpx;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.check {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid #ccc;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40rpx;
+  color: #fff;
+  background: #409eff;
+  font-size: 24rpx;
+  flex-shrink: 0;
+}
+.img {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 8rpx;
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+.info {
+  flex: 1;
+}
+.name {
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.price {
+  color: #e4393c;
+  margin: 10rpx 0;
+}
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.qty-btn {
+  width: 48rpx;
+  height: 48rpx;
+  line-height: 44rpx;
+  text-align: center;
+  background: #f5f5f5;
+  border-radius: 6rpx;
+  font-size: 30rpx;
+}
+.qty-num {
+  min-width: 40rpx;
+  text-align: center;
+}
+.del {
+  margin-left: auto;
+  color: #999;
+  font-size: 24rpx;
+}
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 120rpx 0;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+}
+.total {
+  font-size: 28rpx;
+}
+.checkout {
+  background: #e4393c;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  margin: 0;
+  padding: 0 50rpx;
+}

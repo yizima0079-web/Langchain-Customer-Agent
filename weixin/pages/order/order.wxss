@@ -1,0 +1,143 @@
+/**pages/order/order.wxss 订单样式**/
+.container {
+  padding: 20rpx;
+  padding-bottom: 140rpx;
+}
+
+/* 状态切换 */
+.tabs {
+  white-space: nowrap;
+  margin-bottom: 20rpx;
+}
+.tab {
+  display: inline-block;
+  padding: 10rpx 26rpx;
+  margin-right: 14rpx;
+  background: #fff;
+  border-radius: 30rpx;
+  color: #666;
+  font-size: 26rpx;
+}
+.tab.active {
+  background: #409eff;
+  color: #fff;
+}
+
+/* 订单卡片 */
+.order-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+.order-no {
+  color: #666;
+  font-size: 24rpx;
+}
+.order-status {
+  color: #e4393c;
+  font-size: 24rpx;
+}
+.order-item {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 16rpx;
+}
+.img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 8rpx;
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+.info {
+  flex: 1;
+}
+.name {
+  font-size: 28rpx;
+}
+.price {
+  color: #e4393c;
+  margin-top: 10rpx;
+}
+.order-foot {
+  text-align: right;
+  border-top: 1rpx solid #f0f0f0;
+  padding-top: 16rpx;
+}
+.cancel-order {
+  display: inline-block;
+  margin: 12rpx 0 0 16rpx;
+  padding: 0 22rpx;
+  color: #666;
+  background: #fff;
+  border: 1rpx solid #ccc;
+  border-radius: 28rpx;
+  line-height: 54rpx;
+}
+
+/* 下单模式 */
+.card-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+}
+.input {
+  border: 1rpx solid #eee;
+  border-radius: 8rpx;
+  padding: 16rpx;
+  margin-bottom: 16rpx;
+  font-size: 26rpx;
+}
+.saved-address, .new-address {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.new-address { border-bottom: 0; }
+.address-radio {
+  width: 38rpx;
+  height: 38rpx;
+  margin-right: 16rpx;
+  border: 2rpx solid #ccc;
+  border-radius: 50%;
+  color: #fff;
+  background: #fff;
+  font-size: 26rpx;
+  line-height: 38rpx;
+  text-align: center;
+}
+.selected .address-radio { border-color: #409eff; background: #409eff; }
+.address-info { flex: 1; }
+.address-main { font-size: 28rpx; }
+.address-detail { margin-top: 8rpx; color: #777; font-size: 24rpx; }
+.default-tag { margin-left: 12rpx; padding: 4rpx 10rpx; color: #409eff; background: #edf5ff; border-radius: 6rpx; font-size: 22rpx; }
+.new-address-form { padding-top: 16rpx; }
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+}
+.total {
+  font-size: 28rpx;
+}
+.submit {
+  background: #e4393c;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  margin: 0;
+  padding: 0 50rpx;
+}
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 120rpx 0;
+}

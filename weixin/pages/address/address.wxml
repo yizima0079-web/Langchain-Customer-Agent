@@ -1,0 +1,28 @@
+<view class="container">
+  <view wx:for="{{addresses}}" wx:key="id" class="address-card card">
+    <view class="address-head">
+      <text class="name">{{item.name}}</text>
+      <text class="phone">{{item.phone}}</text>
+      <text wx:if="{{item.is_default}}" class="default-tag">默认地址</text>
+    </view>
+    <view class="detail">{{item.province}}{{item.city}}{{item.district}}{{item.detail}}</view>
+    <view class="address-actions">
+      <button size="mini" data-id="{{item.id}}" bindtap="editAddress">编辑</button>
+      <button wx:if="{{!item.is_default}}" size="mini" data-id="{{item.id}}" bindtap="setDefault">设为默认</button>
+      <button size="mini" class="delete-btn" data-id="{{item.id}}" bindtap="deleteAddress">删除</button>
+    </view>
+  </view>
+
+  <view wx:if="{{!addresses.length && !showForm}}" class="empty">暂无保存的地址</view>
+  <button wx:if="{{!showForm}}" class="add-btn" bindtap="showAddForm">＋ 新增地址</button>
+
+  <view wx:if="{{showForm}}" class="card form-card">
+    <view class="form-title">{{editingId ? '编辑地址' : '新增地址'}}</view>
+    <input class="input" placeholder="收货人姓名" value="{{form.name}}" data-field="name" bindinput="onInput" />
+    <input class="input" placeholder="手机号" type="number" value="{{form.phone}}" data-field="phone" bindinput="onInput" />
+    <input class="input" placeholder="省市区（选填）" value="{{form.region}}" data-field="region" bindinput="onInput" />
+    <input class="input" placeholder="详细地址" value="{{form.detail}}" data-field="detail" bindinput="onInput" />
+    <label class="default-check"><checkbox value="default" checked="{{form.is_default}}" bindchange="onDefaultChange" />设为默认地址</label>
+    <view class="form-actions"><button bindtap="cancelForm">取消</button><button class="save-btn" bindtap="saveAddress" loading="{{saving}}">保存</button></view>
+  </view>
+</view>

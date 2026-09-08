@@ -1,0 +1,24 @@
+<!--pages/product/product.wxml 商品详情-->
+<view wx:if="{{product}}" class="page">
+  <image src="{{product.cover_image}}" mode="aspectFill" class="cover" />
+
+  <view class="info card">
+    <view class="price-line">
+      <text class="price">¥{{product.price}}</text>
+      <text wx:if="{{product.original_price}}" class="original">¥{{product.original_price}}</text>
+    </view>
+    <view class="name">{{product.name}}</view>
+    <view class="meta">库存 {{product.stock}} · 已售 {{product.sales}}</view>
+  </view>
+
+  <view class="desc card">
+    <view class="desc-title">商品详情</view>
+    <text>{{product.description || '暂无描述'}}</text>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="footer">
+    <button class="btn-cart" bindtap="addCart">加入购物车</button>
+    <button class="btn-buy" bindtap="buyNow">立即购买</button>
+  </view>
+</view>

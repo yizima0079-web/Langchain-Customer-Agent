@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="summary card">
+    <view class="label">订单金额</view>
+    <view class="amount">¥{{amount}}</view>
+    <view class="order-no">订单号：{{orderNo}}</view>
+  </view>
+  <view class="card">
+    <view class="card-title">支付方式</view>
+    <view wx:for="{{paymentMethods}}" wx:key="value" class="method {{selectedMethod === item.value ? 'selected' : ''}}" data-value="{{item.value}}" bindtap="selectMethod">
+      <view class="method-icon">{{item.icon}}</view>
+      <view class="method-info">
+        <view class="method-name">{{item.name}}</view>
+        <view class="method-desc">{{item.desc}}</view>
+      </view>
+      <view class="radio">{{selectedMethod === item.value ? '✓' : ''}}</view>
+    </view>
+  </view>
+  <button class="pay-button" bindtap="confirmPayment" loading="{{paying}}" disabled="{{paying}}">确认支付 ¥{{amount}}</button>
+</view>

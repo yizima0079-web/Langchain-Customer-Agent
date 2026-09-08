@@ -1,0 +1,61 @@
+/* 全局基础样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --brand: #2f6df6;
+  --brand-deep: #173c91;
+  --ink: #17233c;
+  --muted: #7b879d;
+  --line: #e8edf5;
+  --surface: #ffffff;
+  --page: #f4f7fb;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', Arial,
+    sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  background-color: var(--page);
+}
+
+/* 通用页面容器 */
+.page-container {
+  padding: 22px;
+  max-width: 1680px;
+  margin: 0 auto;
+}
+
+/* 卡片通用样式 */
+.filter-bar {
+  margin-bottom: 14px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.el-card {
+  border: 1px solid rgba(224, 231, 242, .9) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 24px rgba(31, 58, 105, .045) !important;
+}
+.el-card__header { border-bottom-color: var(--line) !important; font-weight: 650; }
+.el-table th.el-table__cell { background: #f7f9fc; color: #596780; font-weight: 650; }
+.el-button--primary { --el-button-bg-color: var(--brand); --el-button-border-color: var(--brand); }
+
+/* 表格分页容器 */
+.pagination-wrap {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}

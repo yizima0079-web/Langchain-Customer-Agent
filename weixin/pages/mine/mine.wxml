@@ -1,0 +1,35 @@
+<!--pages/mine/mine.wxml 个人中心-->
+<view class="container">
+  <!-- 未登录：登录表单 -->
+  <view wx:if="{{!token}}" class="card login-card">
+    <view class="title">账号登录</view>
+    <input class="input" placeholder="账号" value="{{username}}" bindinput="onUsername" />
+    <input class="input" placeholder="密码" password value="{{password}}" bindinput="onPassword" />
+    <button class="login-btn" bindtap="login" disabled="{{loading}}">登录</button>
+    <view class="tip">测试账号：zhangsan / 123456</view>
+  </view>
+
+  <!-- 已登录：用户信息 -->
+  <view wx:else>
+    <view class="card user-card">
+      <view class="avatar">{{user.nickname ? user.nickname[0] : '用'}}</view>
+      <view class="user-info">
+        <view class="nickname">{{user.nickname || user.username}}</view>
+        <view class="username">{{user.username}}</view>
+      </view>
+    </view>
+
+    <view class="card menu-item" bindtap="goOrders">
+      <text>我的订单</text>
+      <text class="arrow">›</text>
+    </view>
+    <view class="card menu-item" bindtap="goAddresses">
+      <text>地址管理</text>
+      <text class="arrow">›</text>
+    </view>
+    <view class="card menu-item" bindtap="logout">
+      <text>退出登录</text>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+</view>

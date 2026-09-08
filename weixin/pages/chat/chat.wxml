@@ -1,0 +1,32 @@
+<!--pages/chat/chat.wxml AI 智能客服-->
+<view class="chat-page">
+  <!-- 消息列表 -->
+  <scroll-view scroll-y class="messages" scroll-into-view="{{scrollIntoView}}" scroll-with-animation>
+    <view wx:if="{{!messages.length}}" class="welcome">
+      <view class="welcome-title">AI 智能客服</view>
+      <view class="welcome-sub">基于知识库 RAG 检索，为您答疑解惑</view>
+    </view>
+
+    <view
+      wx:for="{{messages}}"
+      wx:key="index"
+      id="msg-{{index}}"
+      class="msg {{item.role}}"
+    >
+      <view class="bubble">{{item.content}}<text wx:if="{{item.streaming}}" class="cursor">▋</text></view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入栏 -->
+  <view class="input-bar">
+    <input
+      class="input"
+      placeholder="请输入您的问题…"
+      value="{{input}}"
+      bindinput="onInput"
+      confirm-type="send"
+      bindconfirm="send"
+    />
+    <button class="send-btn" bindtap="send" disabled="{{sending}}">发送</button>
+  </view>
+</view>

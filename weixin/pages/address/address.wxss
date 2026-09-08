@@ -1,0 +1,19 @@
+.container { padding: 20rpx; padding-bottom: 160rpx; }
+.address-card { padding: 24rpx; }
+.address-head { display: flex; align-items: center; }
+.name { font-size: 30rpx; font-weight: 600; }
+.phone { margin-left: 20rpx; color: #666; font-size: 26rpx; }
+.default-tag { margin-left: auto; padding: 5rpx 10rpx; color: #409eff; background: #edf5ff; border-radius: 6rpx; font-size: 22rpx; }
+.detail { margin-top: 16rpx; color: #555; line-height: 1.5; }
+.address-actions { display: flex; justify-content: flex-end; gap: 14rpx; margin-top: 20rpx; padding-top: 16rpx; border-top: 1rpx solid #f0f0f0; }
+.address-actions button { margin: 0; color: #666; background: #fff; border: 1rpx solid #ddd; border-radius: 24rpx; }
+.address-actions .delete-btn { color: #e4393c; }
+.empty { padding: 100rpx 0; color: #999; text-align: center; }
+.add-btn { margin-top: 24rpx; color: #fff; background: #409eff; border-radius: 44rpx; }
+.form-card { margin-top: 24rpx; }
+.form-title { margin-bottom: 24rpx; font-size: 32rpx; font-weight: 600; }
+.input { padding: 18rpx; margin-bottom: 18rpx; border: 1rpx solid #eee; border-radius: 8rpx; font-size: 28rpx; }
+.default-check { display: flex; align-items: center; color: #555; font-size: 26rpx; }
+.form-actions { display: flex; gap: 20rpx; margin-top: 26rpx; }
+.form-actions button { flex: 1; margin: 0; border-radius: 36rpx; }
+.save-btn { color: #fff; background: #409eff; }
